@@ -1,0 +1,69 @@
+{
+  "entities": {
+    "Service": {
+      "title": "Service",
+      "description": "Barbershop service item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 500 },
+        "duration": { "type": "number" },
+        "price": { "type": "number" },
+        "category": { "type": "string", "maxLength": 50 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "price", "duration", "category"]
+    },
+    "TeamMember": {
+      "title": "TeamMember",
+      "description": "Barber or specialist team member",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "role": { "type": "string", "maxLength": 100 },
+        "specialty": { "type": "string", "maxLength": 100 },
+        "image": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "role", "specialty"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Appointment booking record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "serviceId": { "type": "string" },
+        "memberId": { "type": "string" },
+        "clientName": { "type": "string", "maxLength": 100 },
+        "clientEmail": { "type": "string", "maxLength": 100 },
+        "clientPhone": { "type": "string", "maxLength": 30 },
+        "date": { "type": "string" },
+        "time": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "cancelled"] },
+        "notes": { "type": "string", "maxLength": 300 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["serviceId", "clientName", "date", "time"]
+    }
+  },
+  "firestore": {
+    "/services/{serviceId}": {
+      "schema": { "$ref": "#/entities/Service" },
+      "description": "Catalog of services"
+    },
+    "/team/{memberId}": {
+      "schema": { "$ref": "#/entities/TeamMember" },
+      "description": "Team members and barbers"
+    },
+    "/bookings/{bookingId}": {
+      "schema": { "$ref": "#/entities/Booking" },
+      "description": "Appointment bookings"
+    }
+  }
+}

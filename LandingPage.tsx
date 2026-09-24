@@ -202,8 +202,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ services, team, onBookNow, on
           </div>
         </div>
         
-        <div className="max-w-7xl mx-auto px-6 mt-20 pt-10 border-t border-slate-900 text-center">
-          <p className="text-[9px] font-black uppercase tracking-[0.5em] text-slate-700">© 2024 BARBERPRO • TODOS OS DIREITOS RESERVADOS</p>
+        <div className="max-w-7xl mx-auto px-6 mt-20 pt-10 border-t border-slate-900 text-center space-y-2">
+          <p className="text-[9px] font-black uppercase tracking-[0.5em] text-slate-600">© 2024 BARBERPRO • TODOS OS DIREITOS RESERVADOS</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-amber-500">Desenvolvimento Agencia Stc Mobile / Sydney Caiaffa. 11 98493-7529.</p>
         </div>
       </footer>
     </div>
