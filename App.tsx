@@ -82,7 +82,7 @@ const SidebarLink = ({ icon, label, active, onClick }: any) => (
     onClick={onClick} 
     className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all text-[11px] font-black uppercase tracking-widest ${
       active 
-      ? 'bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/20' 
+      ? 'bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/20 font-black' 
       : 'text-slate-400 hover:bg-slate-800 hover:text-white'
     }`}
   >
@@ -98,12 +98,12 @@ const StatCard = ({ label, value, icon, color = "amber" }: any) => {
     indigo: 'text-indigo-500 bg-indigo-500/10 border-indigo-500/20'
   };
   return (
-    <div className="bg-slate-900 p-6 rounded-[2rem] border border-slate-800 flex justify-between items-center shadow-xl hover:border-slate-700 transition-colors group">
+    <div className="bg-slate-900 p-5 sm:p-6 rounded-[2rem] border border-slate-800 flex justify-between items-center shadow-xl hover:border-slate-700 transition-colors group">
       <div>
         <p className="text-[10px] font-black uppercase text-slate-500 mb-1 tracking-widest group-hover:text-slate-400 transition-colors">{label}</p>
-        <h4 className="text-2xl md:text-3xl font-black italic text-white leading-none tracking-tighter">{value}</h4>
+        <h4 className="text-xl sm:text-2xl md:text-3xl font-black italic text-white leading-none tracking-tighter">{value}</h4>
       </div>
-      <div className={`p-4 rounded-2xl border ${colors[color]} group-hover:scale-110 transition-transform`}>{icon}</div>
+      <div className={`p-3.5 sm:p-4 rounded-2xl border ${colors[color]} group-hover:scale-110 transition-transform`}>{icon}</div>
     </div>
   );
 };
@@ -363,33 +363,33 @@ const App: React.FC = () => {
 
   if (activeView === 'success-feedback') return (
     <div className="bg-slate-950 min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-[3rem] p-8 md:p-14 text-center shadow-2xl animate-in fade-in zoom-in duration-500">
-        <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/20">
-          <Check size={40} className="text-green-500" />
+      <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-[2.5rem] sm:rounded-[3rem] p-6 sm:p-10 md:p-14 text-center shadow-2xl animate-in fade-in zoom-in duration-500 my-auto">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/20">
+          <Check size={36} className="text-green-500" />
         </div>
-        <h2 className="text-3xl md:text-4xl font-black text-white italic uppercase tracking-tighter mb-4">RESERVA <span className="text-amber-500">CONCLUÍDA</span></h2>
-        <p className="text-slate-400 font-medium mb-8 uppercase text-xs md:text-sm tracking-widest">Seu agendamento foi gravado no banco de dados com sucesso. Envie a confirmação:</p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <button onClick={triggerWhatsApp} className="flex items-center justify-center gap-3 py-5 bg-[#25D366] text-white font-black rounded-2xl uppercase tracking-widest hover:scale-105 transition-all shadow-xl text-sm"><MessageSquare size={20} /> WhatsApp</button>
-          <button onClick={triggerSMS} className="flex items-center justify-center gap-3 py-5 bg-slate-800 text-white font-black rounded-2xl uppercase tracking-widest hover:scale-105 transition-all shadow-xl text-sm border border-slate-700"><Smartphone size={20} /> SMS</button>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white italic uppercase tracking-tighter mb-3">RESERVA <span className="text-amber-500">CONCLUÍDA</span></h2>
+        <p className="text-slate-400 font-medium mb-8 uppercase text-xs md:text-sm tracking-widest leading-relaxed">Seu agendamento foi gravado no banco de dados com sucesso. Envie a confirmação:</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+          <button onClick={triggerWhatsApp} className="flex items-center justify-center gap-3 py-4 sm:py-5 bg-[#25D366] text-white font-black rounded-2xl uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl text-xs sm:text-sm"><MessageSquare size={18} /> WhatsApp</button>
+          <button onClick={triggerSMS} className="flex items-center justify-center gap-3 py-4 sm:py-5 bg-slate-800 text-white font-black rounded-2xl uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl text-xs sm:text-sm border border-slate-700"><Smartphone size={18} /> SMS</button>
         </div>
-        <button onClick={() => setActiveView('landing')} className="mt-10 text-slate-500 hover:text-white uppercase font-black text-[10px] tracking-[0.3em]">Voltar ao Início</button>
+        <button onClick={() => setActiveView('landing')} className="mt-8 text-slate-500 hover:text-white uppercase font-black text-[10px] tracking-[0.3em]">Voltar ao Início</button>
       </div>
     </div>
   );
 
   if (activeView === 'login') return (
     <div className="bg-slate-950 min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-[2.5rem] p-8 md:p-12 shadow-2xl">
-        <button onClick={() => setActiveView('landing')} className="text-slate-500 mb-8 flex items-center gap-2 uppercase font-black text-[10px] tracking-widest hover:text-white transition-colors"><ArrowLeft size={16}/> Sair</button>
-        <h2 className="text-3xl font-black text-white italic uppercase tracking-tighter text-center mb-10 leading-none">Acesso <span className="text-amber-500">Master</span></h2>
+      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-2xl my-auto">
+        <button onClick={() => setActiveView('landing')} className="text-slate-500 mb-6 flex items-center gap-2 uppercase font-black text-[10px] tracking-widest hover:text-white transition-colors"><ArrowLeft size={16}/> Sair</button>
+        <h2 className="text-2xl sm:text-3xl font-black text-white italic uppercase tracking-tighter text-center mb-8 leading-none">Acesso <span className="text-amber-500">Master</span></h2>
         <form onSubmit={e => {
           e.preventDefault();
           if (new FormData(e.currentTarget).get('password') === "1966") setActiveView('dashboard');
           else alert("Senha incorreta.");
         }} className="space-y-4">
-          <input name="password" type="password" placeholder="SENHA" required className="w-full bg-slate-800 border border-slate-700 text-white p-5 rounded-2xl outline-none focus:border-amber-500 transition-all text-center text-lg tracking-[0.5em]" />
-          <button type="submit" className="w-full py-5 bg-amber-500 text-slate-950 font-black rounded-2xl uppercase tracking-widest shadow-xl hover:bg-amber-400 transition-all">Entrar</button>
+          <input name="password" type="password" placeholder="SENHA" required className="w-full bg-slate-800 border border-slate-700 text-white p-4 sm:p-5 rounded-2xl outline-none focus:border-amber-500 transition-all text-center text-lg tracking-[0.5em]" />
+          <button type="submit" className="w-full py-4 sm:py-5 bg-amber-500 text-slate-950 font-black rounded-2xl uppercase tracking-widest shadow-xl hover:bg-amber-400 active:scale-95 transition-all text-xs sm:text-sm">Entrar</button>
         </form>
       </div>
     </div>
@@ -421,78 +421,78 @@ const App: React.FC = () => {
 
     return (
       <div className="bg-slate-950 min-h-screen flex items-center justify-center p-3 sm:p-6 md:p-10 text-white">
-        <div className="w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-[2.5rem] p-5 sm:p-8 md:p-12 shadow-2xl overflow-y-auto max-h-[95vh] space-y-8 my-auto">
+        <div className="w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-[2rem] sm:rounded-[2.5rem] p-4 sm:p-8 md:p-12 shadow-2xl overflow-y-auto max-h-[96vh] space-y-6 sm:space-y-8 my-auto">
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-slate-800 pb-5">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-4 sm:pb-5">
             <button 
               type="button"
               onClick={() => { setActiveView('landing'); setPreselectedMember(null); }} 
-              className="text-slate-400 hover:text-white flex items-center gap-2 uppercase font-black text-[11px] tracking-widest transition-colors bg-slate-800 px-4 py-2.5 rounded-xl border border-slate-700"
+              className="text-slate-400 hover:text-white flex items-center gap-1.5 sm:gap-2 uppercase font-black text-[10px] sm:text-[11px] tracking-widest transition-colors bg-slate-800 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-slate-700"
             >
               <ArrowLeft size={16}/> Voltar
             </button>
             <div className="text-right">
-              <span className="text-[10px] font-black uppercase tracking-widest text-amber-500 block">Passo Único</span>
-              <h2 className="text-xl sm:text-3xl font-black italic uppercase tracking-tighter leading-none">AGENDAR <span className="text-amber-500">HORÁRIO</span></h2>
+              <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-amber-500 block">Reserva Rápida</span>
+              <h2 className="text-lg sm:text-2xl md:text-3xl font-black italic uppercase tracking-tighter leading-none">AGENDAR <span className="text-amber-500">HORÁRIO</span></h2>
             </div>
           </div>
 
           {preselectedMember && (
-            <div className="bg-amber-500/10 border border-amber-500/30 p-4 rounded-2xl flex items-center gap-4">
-              <img src={preselectedMember.image} alt={preselectedMember.name} className="w-12 h-12 rounded-xl object-cover border border-amber-500" />
+            <div className="bg-amber-500/10 border border-amber-500/30 p-3.5 sm:p-4 rounded-2xl flex items-center gap-3 sm:gap-4">
+              <img src={preselectedMember.image} alt={preselectedMember.name} className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-cover border border-amber-500 shrink-0" />
               <div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-amber-500">Atendimento Exclusivo</span>
-                <p className="text-sm font-black uppercase text-white">{preselectedMember.name} ({preselectedMember.role})</p>
+                <span className="text-[9px] font-black uppercase tracking-widest text-amber-500 block">Atendimento Exclusivo</span>
+                <p className="text-xs sm:text-sm font-black uppercase text-white">{preselectedMember.name} ({preselectedMember.role})</p>
               </div>
             </div>
           )}
 
-          <form onSubmit={handleFormSubmit} className="space-y-6">
+          <form onSubmit={handleFormSubmit} className="space-y-5 sm:space-y-6">
             {/* 1. SEUS DADOS */}
-            <div className="space-y-3">
-              <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+            <div className="space-y-2.5 sm:space-y-3">
+              <label className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
                 <UserCheck size={16} className="text-amber-500" /> 1. Seus Dados de Contato
               </label>
-              <div className="space-y-3">
+              <div className="space-y-2.5 sm:space-y-3">
                 <input 
                   type="text"
                   value={bookingName}
                   onChange={e => setBookingName(e.target.value)}
                   placeholder="Seu Nome Completo *" 
                   required 
-                  className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-medium placeholder-slate-500" 
+                  className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-medium text-xs sm:text-sm placeholder-slate-500" 
                 />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                   <input 
                     type="tel"
                     value={bookingPhone}
                     onChange={e => setBookingPhone(e.target.value)}
                     placeholder="WhatsApp / Celular (Opcional)" 
-                    className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-medium placeholder-slate-500" 
+                    className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-medium text-xs sm:text-sm placeholder-slate-500" 
                   />
                   <input 
                     type="email"
                     value={bookingEmail}
                     onChange={e => setBookingEmail(e.target.value)}
                     placeholder="Seu E-mail (Opcional)" 
-                    className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-medium placeholder-slate-500" 
+                    className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-medium text-xs sm:text-sm placeholder-slate-500" 
                   />
                 </div>
               </div>
             </div>
 
             {/* 2. SELEÇÃO DE SERVIÇO & BARBEIRO */}
-            <div className="space-y-3">
-              <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+            <div className="space-y-2.5 sm:space-y-3">
+              <label className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
                 <Scissors size={16} className="text-amber-500" /> 2. Serviço & Profissional
               </label>
-              <div className="space-y-3">
+              <div className="space-y-2.5 sm:space-y-3">
                 <select 
                   value={bookingServiceId} 
                   onChange={e => setBookingServiceId(e.target.value)}
                   required 
                   style={{ colorScheme: 'dark' }}
-                  className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-bold text-sm"
+                  className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-bold text-xs sm:text-sm"
                 >
                   <option value="">Selecione o Serviço *</option>
                   {services.map(s => (
@@ -507,7 +507,7 @@ const App: React.FC = () => {
                     value={bookingMemberId} 
                     onChange={e => setBookingMemberId(e.target.value)}
                     style={{ colorScheme: 'dark' }}
-                    className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-bold text-sm"
+                    className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-bold text-xs sm:text-sm"
                   >
                     <option value="">Selecione o Barbeiro (Qualquer Profissional)</option>
                     {team.map(m => (
@@ -521,13 +521,13 @@ const App: React.FC = () => {
             </div>
 
             {/* 3. SELEÇÃO DE DIA / DIA DA SEMANA / ANO */}
-            <div className="space-y-3">
-              <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+            <div className="space-y-2.5 sm:space-y-3">
+              <label className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
                 <CalendarIcon size={16} className="text-amber-500" /> 3. Selecione o Dia (Data)
               </label>
               
-              {/* Atalhos Rápidos de Dias em Carrossel Mobile */}
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2">
+              {/* Atalhos Rápidos de Dias */}
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-1.5 sm:gap-2">
                 {quickDays.map((qd) => {
                   const isSelected = selectedDate === qd.dateStr;
                   return (
@@ -535,22 +535,22 @@ const App: React.FC = () => {
                       key={qd.dateStr}
                       type="button"
                       onClick={() => setSelectedDate(qd.dateStr)}
-                      className={`p-3 rounded-2xl border text-center transition-all flex flex-col items-center justify-center ${
+                      className={`p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border text-center transition-all flex flex-col items-center justify-center ${
                         isSelected 
                         ? 'bg-amber-500 border-amber-400 text-slate-950 font-black shadow-lg shadow-amber-500/20 scale-105' 
                         : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-500'
                       }`}
                     >
-                      <span className="text-[9px] font-black uppercase tracking-wider">{qd.subtitle}</span>
-                      <span className="text-sm font-black italic">{qd.title}</span>
+                      <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-wider">{qd.subtitle}</span>
+                      <span className="text-xs sm:text-sm font-black italic">{qd.title}</span>
                     </button>
                   );
                 })}
               </div>
 
-              {/* Seletor Manual de Data com colorScheme dark fix total para Mobile */}
-              <div className="pt-2">
-                <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">
+              {/* Seletor Manual de Data */}
+              <div className="pt-1">
+                <div className="flex items-center justify-between text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">
                   <span>Ou selecione no calendário:</span>
                 </div>
                 <input 
@@ -560,19 +560,19 @@ const App: React.FC = () => {
                   onChange={e => setSelectedDate(e.target.value)}
                   required 
                   style={{ colorScheme: 'dark' }}
-                  className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-black text-sm"
+                  className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-black text-xs sm:text-sm"
                 />
               </div>
             </div>
 
             {/* 4. SELEÇÃO DE HORÁRIO */}
-            <div className="space-y-3">
-              <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+            <div className="space-y-2.5 sm:space-y-3">
+              <label className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
                 <Clock size={16} className="text-amber-500" /> 4. Selecione o Horário
               </label>
 
-              {/* Grid Interativo de Horários para Facilidade Mobile */}
-              <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 max-h-48 overflow-y-auto p-1 bg-slate-950/50 rounded-2xl border border-slate-800">
+              {/* Grid Interativo de Horários */}
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-1.5 sm:gap-2 max-h-48 overflow-y-auto p-1.5 bg-slate-950/50 rounded-2xl border border-slate-800">
                 {TIME_SLOTS.map((slot) => {
                   const isSelected = selectedTime === slot;
                   return (
@@ -580,7 +580,7 @@ const App: React.FC = () => {
                       key={slot}
                       type="button"
                       onClick={() => setSelectedTime(slot)}
-                      className={`py-3 px-2 rounded-xl text-center text-xs font-black transition-all ${
+                      className={`py-2.5 sm:py-3 px-1.5 sm:px-2 rounded-xl text-center text-xs font-black transition-all ${
                         isSelected 
                         ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20 scale-105' 
                         : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'
@@ -594,7 +594,7 @@ const App: React.FC = () => {
 
               {/* Campo Manual de Horário */}
               <div className="pt-1">
-                <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">
+                <div className="flex items-center justify-between text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">
                   <span>Horário personalizado:</span>
                 </div>
                 <input 
@@ -603,35 +603,35 @@ const App: React.FC = () => {
                   onChange={e => setSelectedTime(e.target.value)}
                   required 
                   style={{ colorScheme: 'dark' }}
-                  className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-black text-sm"
+                  className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-black text-xs sm:text-sm"
                 />
               </div>
             </div>
 
             {/* RESUMO DO AGENDAMENTO */}
-            <div className="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-2">
+            <div className="bg-slate-950 p-4 sm:p-5 rounded-2xl border border-slate-800 space-y-1.5 sm:space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Resumo da Reserva</span>
-                <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 flex items-center gap-1">
+                <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-slate-500">Resumo da Reserva</span>
+                <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-emerald-400 flex items-center gap-1">
                   <Sparkles size={12} /> Confirmação Imediata
                 </span>
               </div>
-              <div className="text-sm font-black text-white italic">
+              <div className="text-xs sm:text-sm font-black text-white italic">
                 {selectedService ? selectedService.name : 'Selecione um serviço'} {selectedService && `(R$ ${selectedService.price.toFixed(2)})`}
               </div>
-              <div className="text-xs text-amber-500 font-bold uppercase tracking-wider flex items-center gap-3">
+              <div className="text-[11px] sm:text-xs text-amber-500 font-bold uppercase tracking-wider flex flex-wrap items-center gap-2 sm:gap-3">
                 <span>📅 {selectedDate.split('-').reverse().join('/')}</span>
                 <span>⏰ {selectedTime}</span>
-                {selectedMember && <span>💈 Barber: {selectedMember.name}</span>}
+                {selectedMember && <span>💈 {selectedMember.name}</span>}
               </div>
             </div>
 
             {/* Botão de Envio */}
             <button 
               type="submit" 
-              className="w-full py-5 bg-amber-500 text-slate-950 font-black rounded-2xl uppercase tracking-widest shadow-xl hover:bg-amber-400 transform active:scale-95 transition-all text-sm flex items-center justify-center gap-2"
+              className="w-full py-4 sm:py-5 bg-amber-500 text-slate-950 font-black rounded-2xl uppercase tracking-widest shadow-xl hover:bg-amber-400 active:scale-95 transition-all text-xs sm:text-sm flex items-center justify-center gap-2"
             >
-              <CheckCircle2 size={20} /> Gravar Agendamento em Tempo Real
+              <CheckCircle2 size={18} /> Gravar Agendamento em Tempo Real
             </button>
           </form>
         </div>
@@ -641,15 +641,23 @@ const App: React.FC = () => {
 
   return (
     <div className="flex flex-col lg:flex-row h-screen bg-slate-950 text-white overflow-hidden">
+      {/* Mobile Drawer Overlay */}
+      {isSidebarOpen && (
+        <div 
+          onClick={() => setIsSidebarOpen(false)} 
+          className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[90] lg:hidden"
+        />
+      )}
+
       <aside className={`fixed lg:static inset-y-0 left-0 z-[100] w-72 bg-slate-900 border-r border-slate-800 transform transition-transform duration-300 lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="p-8 h-full flex flex-col justify-between">
+        <div className="p-6 sm:p-8 h-full flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between mb-12">
+            <div className="flex items-center justify-between mb-10 sm:mb-12">
               <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActiveView('landing')}>
                 <div className="p-2 bg-amber-500 rounded-xl"><Scissors size={22} className="text-slate-950" /></div>
                 <h1 className="text-2xl font-black italic uppercase tracking-tighter">BARBER<span className="text-amber-500">PRO</span></h1>
               </div>
-              <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-2 text-slate-500"><X size={24}/></button>
+              <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-2 text-slate-400 hover:text-white"><X size={22}/></button>
             </div>
             <nav className="space-y-2 flex-1">
               <SidebarLink icon={<LayoutDashboard size={18} />} label="Painel" active={activeView === 'dashboard'} onClick={() => { setActiveView('dashboard'); setIsSidebarOpen(false); }} />
@@ -663,67 +671,68 @@ const App: React.FC = () => {
               <Database size={14} className="shrink-0 animate-pulse" />
               <span className="text-[9px] font-black uppercase tracking-wider">Firestore Cloud Ativo</span>
             </div>
-            <button onClick={() => setActiveView('landing')} className="flex items-center gap-3 p-4 text-slate-500 hover:text-red-500 uppercase font-black text-[10px] tracking-widest w-full"><LogOut size={18} /> Sair</button>
+            <button onClick={() => setActiveView('landing')} className="flex items-center gap-3 p-3.5 text-slate-500 hover:text-red-500 uppercase font-black text-[10px] tracking-widest w-full transition-colors"><LogOut size={18} /> Sair</button>
           </div>
         </div>
       </aside>
 
       <main className="flex-1 overflow-y-auto bg-slate-950 flex flex-col justify-between">
         <header className="lg:hidden flex items-center justify-between p-4 bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
-          <button onClick={() => setIsSidebarOpen(true)} className="p-2.5 bg-slate-800 rounded-xl text-amber-500"><Menu size={24} /></button>
+          <button onClick={() => setIsSidebarOpen(true)} className="p-2.5 bg-slate-800 rounded-xl text-amber-500 border border-slate-700"><Menu size={22} /></button>
           <h1 className="text-lg font-black italic uppercase tracking-tighter">BARBER<span className="text-amber-500">PRO</span></h1>
           <div className="w-10"></div>
         </header>
 
-        <div className="p-5 md:p-10 lg:p-14 max-w-7xl mx-auto space-y-12 w-full">
+        <div className="p-4 sm:p-8 lg:p-12 max-w-7xl mx-auto space-y-8 sm:space-y-12 w-full">
           {activeView === 'dashboard' && (
-            <div className="space-y-10 animate-in fade-in duration-500">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">GESTÃO <span className="text-amber-500">PRO</span></h2>
-                <div className="flex items-center gap-3 text-emerald-400 bg-emerald-500/10 px-6 py-3 rounded-2xl border border-emerald-500/20"><Database size={16} /> <span className="text-[10px] font-black uppercase tracking-widest">Banco Gratuito Conectado</span></div>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <StatCard label="Faturamento" value={`R$ ${revenue.toFixed(2)}`} icon={<DollarSign size={24} />} color="green" />
-                <StatCard label="Agendas" value={bookings.length.toString()} icon={<TrendingUp size={24} />} color="amber" />
-                <StatCard label="Time" value={team.length.toString()} icon={<Users size={24} />} color="blue" />
-                <StatCard label="Serviços" value={services.length.toString()} icon={<Scissors size={24} />} color="indigo" />
+            <div className="space-y-8 sm:space-y-10 animate-in fade-in duration-500">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <h2 className="text-2xl sm:text-4xl md:text-5xl font-black italic uppercase tracking-tighter">GESTÃO <span className="text-amber-500">PRO</span></h2>
+                <div className="flex items-center gap-2 text-emerald-400 bg-emerald-500/10 px-4 py-2.5 rounded-2xl border border-emerald-500/20 w-fit"><Database size={14} /> <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest">Banco Gratuito Conectado</span></div>
               </div>
 
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-                <div className="bg-slate-900 border border-slate-800 rounded-[2.5rem] p-8 space-y-6">
-                  <h3 className="text-lg font-black uppercase italic flex items-center gap-2 text-white"><CalendarDays size={20} className="text-amber-500" /> Próximos Clientes</h3>
-                  <div className="grid gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
+                <StatCard label="Faturamento" value={`R$ ${revenue.toFixed(2)}`} icon={<DollarSign size={22} />} color="green" />
+                <StatCard label="Agendas" value={bookings.length.toString()} icon={<TrendingUp size={22} />} color="amber" />
+                <StatCard label="Time" value={team.length.toString()} icon={<Users size={22} />} color="blue" />
+                <StatCard label="Serviços" value={services.length.toString()} icon={<Scissors size={22} />} color="indigo" />
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+                <div className="bg-slate-900 border border-slate-800 rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 space-y-6">
+                  <h3 className="text-base sm:text-lg font-black uppercase italic flex items-center gap-2 text-white"><CalendarDays size={20} className="text-amber-500" /> Próximos Clientes</h3>
+                  <div className="grid gap-3 sm:gap-4">
                     {bookings.slice(0, 5).map(b => {
                       const s = services.find(srv => srv.id === b.serviceId);
                       return (
-                        <div key={b.id} className="p-4 bg-slate-800/50 rounded-2xl flex items-center justify-between border border-transparent hover:border-amber-500/30 transition-all">
+                        <div key={b.id} className="p-3.5 sm:p-4 bg-slate-800/50 rounded-2xl flex items-center justify-between border border-transparent hover:border-amber-500/30 transition-all">
                           <div>
-                            <p className="text-sm font-bold text-white uppercase italic">{b.clientName}</p>
-                            <p className="text-[10px] text-amber-500 font-black uppercase">{s?.name || 'Serviço'} — R$ {s?.price.toFixed(2) || '0.00'}</p>
+                            <p className="text-xs sm:text-sm font-bold text-white uppercase italic">{b.clientName}</p>
+                            <p className="text-[9px] sm:text-[10px] text-amber-500 font-black uppercase">{s?.name || 'Serviço'} — R$ {s?.price.toFixed(2) || '0.00'}</p>
                           </div>
                           <div className="text-right">
-                            <p className="text-sm font-black text-white italic">{b.time}</p>
-                            <p className="text-[10px] text-slate-500 uppercase">{b.date.split('-').reverse().join('/')}</p>
+                            <p className="text-xs sm:text-sm font-black text-white italic">{b.time}</p>
+                            <p className="text-[9px] sm:text-[10px] text-slate-500 uppercase">{b.date.split('-').reverse().join('/')}</p>
                           </div>
                         </div>
                       );
                     })}
-                    {bookings.length === 0 && <p className="text-slate-600 text-center py-10 uppercase font-black text-xs italic">Sem agendamentos no banco de dados</p>}
+                    {bookings.length === 0 && <p className="text-slate-600 text-center py-8 uppercase font-black text-xs italic">Sem agendamentos no banco de dados</p>}
                   </div>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-[2.5rem] p-8 space-y-6">
-                  <h3 className="text-lg font-black uppercase italic flex items-center gap-2 text-white"><Scissors size={20} className="text-amber-500" /> Catálogo Ativo</h3>
-                  <div className="grid gap-4">
+                <div className="bg-slate-900 border border-slate-800 rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-8 space-y-6">
+                  <h3 className="text-base sm:text-lg font-black uppercase italic flex items-center gap-2 text-white"><Scissors size={20} className="text-amber-500" /> Catálogo Ativo</h3>
+                  <div className="grid gap-3 sm:gap-4">
                     {services.slice(0, 6).map(s => (
-                      <div key={s.id} className="p-4 bg-slate-800/50 rounded-2xl flex items-center justify-between border border-transparent hover:border-slate-700 transition-all">
+                      <div key={s.id} className="p-3.5 sm:p-4 bg-slate-800/50 rounded-2xl flex items-center justify-between border border-transparent hover:border-slate-700 transition-all">
                         <div>
-                          <p className="text-sm font-bold text-white uppercase italic">{s.name}</p>
-                          <p className="text-[10px] text-slate-500 font-black uppercase">{s.category}</p>
+                          <p className="text-xs sm:text-sm font-bold text-white uppercase italic">{s.name}</p>
+                          <p className="text-[9px] sm:text-[10px] text-slate-500 font-black uppercase">{s.category}</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-sm font-black text-white italic">R$ {s.price.toFixed(2)}</p>
-                          <p className="text-[10px] text-amber-500 font-bold uppercase">{s.duration} min</p>
+                          <p className="text-xs sm:text-sm font-black text-white italic">R$ {s.price.toFixed(2)}</p>
+                          <p className="text-[9px] sm:text-[10px] text-amber-500 font-bold uppercase"><Clock size={11} className="inline mr-1 text-amber-500" /> {s.duration} MIN</p>
                         </div>
                       </div>
                     ))}
@@ -735,18 +744,18 @@ const App: React.FC = () => {
           )}
 
           {activeView === 'team' && (
-            <div className="space-y-10 animate-in slide-in-from-bottom-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">TIME <span className="text-amber-500">MESTRES</span></h2>
+            <div className="space-y-8 sm:space-y-10 animate-in slide-in-from-bottom-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <h2 className="text-2xl sm:text-4xl md:text-5xl font-black italic uppercase tracking-tighter">TIME <span className="text-amber-500">MESTRES</span></h2>
                 <button onClick={() => { resetMemberForm(); }} className="px-6 py-3 bg-amber-500 text-slate-950 rounded-xl text-[10px] font-black uppercase tracking-widest">Novo Mestre</button>
               </div>
-              <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-                <div className="p-8 bg-slate-900 border border-slate-800 rounded-[2.5rem] h-fit">
-                  <form onSubmit={handleSaveMember} className="space-y-5">
-                    <input value={newMemberName} onChange={e => setNewMemberName(e.target.value)} placeholder="Nome" required className="w-full bg-slate-800 p-4 rounded-xl text-white outline-none border border-transparent focus:border-amber-500" />
-                    <input value={newMemberRole} onChange={e => setNewMemberRole(e.target.value)} placeholder="Cargo / Título (ex: Master Barber)" className="w-full bg-slate-800 p-4 rounded-xl text-white outline-none border border-transparent focus:border-amber-500" />
-                    <input value={newMemberSpecialty} onChange={e => setNewMemberSpecialty(e.target.value)} placeholder="Especialidade (ex: Cortes Clássicos)" className="w-full bg-slate-800 p-4 rounded-xl text-white outline-none border border-transparent focus:border-amber-500" />
-                    <label className="w-full bg-slate-800 p-4 rounded-xl text-slate-400 border border-dashed border-slate-700 hover:border-amber-500 cursor-pointer flex items-center justify-center gap-2">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+                <div className="p-6 sm:p-8 bg-slate-900 border border-slate-800 rounded-[2rem] sm:rounded-[2.5rem] h-fit">
+                  <form onSubmit={handleSaveMember} className="space-y-4 sm:space-y-5">
+                    <input value={newMemberName} onChange={e => setNewMemberName(e.target.value)} placeholder="Nome" required className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-xl text-white outline-none border border-transparent focus:border-amber-500 text-xs sm:text-sm" />
+                    <input value={newMemberRole} onChange={e => setNewMemberRole(e.target.value)} placeholder="Cargo / Título (ex: Master Barber)" className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-xl text-white outline-none border border-transparent focus:border-amber-500 text-xs sm:text-sm" />
+                    <input value={newMemberSpecialty} onChange={e => setNewMemberSpecialty(e.target.value)} placeholder="Especialidade (ex: Cortes Clássicos)" className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-xl text-white outline-none border border-transparent focus:border-amber-500 text-xs sm:text-sm" />
+                    <label className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-xl text-slate-400 border border-dashed border-slate-700 hover:border-amber-500 cursor-pointer flex items-center justify-center gap-2">
                       <Upload size={18} /> <span className="text-[10px] font-black uppercase">FOTO</span>
                       <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
                     </label>
@@ -755,19 +764,19 @@ const App: React.FC = () => {
                         <img src={newMemberImage} alt="Preview" className="w-full h-full object-cover" />
                       </div>
                     )}
-                    <button type="submit" className="w-full py-4 bg-amber-500 text-slate-950 font-black rounded-xl uppercase tracking-widest hover:bg-amber-400">{editingMemberId ? 'Salvar em Tempo Real' : 'Cadastrar no Banco'}</button>
+                    <button type="submit" className="w-full py-4 bg-amber-500 text-slate-950 font-black rounded-xl uppercase tracking-widest hover:bg-amber-400 active:scale-95 transition-all text-xs">{editingMemberId ? 'Salvar em Tempo Real' : 'Cadastrar no Banco'}</button>
                   </form>
                 </div>
-                <div className="xl:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   {team.map(m => (
-                    <div key={m.id} className="p-6 bg-slate-900 border border-slate-800 rounded-[2.5rem] flex items-center gap-6 group hover:border-amber-500/50 transition-all">
-                      <div className="w-20 h-20 rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shrink-0">
+                    <div key={m.id} className="p-5 sm:p-6 bg-slate-900 border border-slate-800 rounded-[2rem] flex items-center gap-4 sm:gap-6 group hover:border-amber-500/50 transition-all">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shrink-0">
                         {m.image ? <img src={m.image} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" alt={m.name} /> : <ImageIcon size={24} className="text-slate-600 m-auto" />}
                       </div>
-                      <div className="flex-1">
-                        <h4 className="text-xl font-black italic uppercase text-white">{m.name}</h4>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-base sm:text-xl font-black italic uppercase text-white truncate">{m.name}</h4>
                         <p className="text-amber-500 text-[10px] font-black uppercase">{m.role}</p>
-                        <p className="text-slate-500 text-[10px] font-medium uppercase mb-4">{m.specialty}</p>
+                        <p className="text-slate-500 text-[10px] font-medium uppercase mb-3 truncate">{m.specialty}</p>
                         <div className="flex gap-2">
                           <button onClick={() => startEditingMember(m)} className="p-2 bg-slate-800 text-slate-400 rounded-lg hover:text-white"><Pencil size={14}/></button>
                           <button onClick={() => deleteMember(m.id)} className="p-2 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white"><Trash2 size={14}/></button>
@@ -776,7 +785,7 @@ const App: React.FC = () => {
                     </div>
                   ))}
                   {team.length === 0 && (
-                    <div className="col-span-full py-16 text-center text-slate-600 font-black uppercase italic">Nenhum barbeiro cadastrado</div>
+                    <div className="col-span-full py-12 text-center text-slate-600 font-black uppercase italic text-xs">Nenhum barbeiro cadastrado</div>
                   )}
                 </div>
               </div>
@@ -784,49 +793,49 @@ const App: React.FC = () => {
           )}
 
           {activeView === 'services' && (
-            <div className="space-y-10 animate-in slide-in-from-bottom-4 duration-500">
-              <div className="flex items-center justify-between">
-                <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">CATÁLOGO <span className="text-amber-500">PRO</span></h2>
-                <button onClick={resetForm} className="px-8 py-4 bg-amber-500 text-slate-950 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-amber-400 shadow-xl"><Plus size={18} className="inline mr-2"/> Novo Serviço</button>
+            <div className="space-y-8 sm:space-y-10 animate-in slide-in-from-bottom-4 duration-500">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <h2 className="text-2xl sm:text-4xl md:text-5xl font-black italic uppercase tracking-tighter">CATÁLOGO <span className="text-amber-500">PRO</span></h2>
+                <button onClick={resetForm} className="px-6 py-3.5 bg-amber-500 text-slate-950 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-amber-400 shadow-xl"><Plus size={16} className="inline mr-1.5"/> Novo Serviço</button>
               </div>
-              <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-                <div className="p-8 rounded-[2.5rem] border bg-slate-900 border-slate-800 h-fit sticky top-10">
-                  <h3 className="text-[11px] font-black uppercase text-slate-500 mb-8 tracking-widest">{editingServiceId ? 'Editar' : 'Cadastrar'}</h3>
-                  <form onSubmit={handleSaveService} className="space-y-5">
-                    <input value={newServiceName} onChange={e => setNewServiceName(e.target.value)} placeholder="Nome do Serviço" required className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-transparent focus:border-amber-500" />
-                    <select value={newServiceCategory} onChange={e => setNewServiceCategory(e.target.value)} className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-transparent focus:border-amber-500">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+                <div className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] border bg-slate-900 border-slate-800 h-fit lg:sticky lg:top-10">
+                  <h3 className="text-[10px] font-black uppercase text-slate-500 mb-6 tracking-widest">{editingServiceId ? 'Editar' : 'Cadastrar'}</h3>
+                  <form onSubmit={handleSaveService} className="space-y-4 sm:space-y-5">
+                    <input value={newServiceName} onChange={e => setNewServiceName(e.target.value)} placeholder="Nome do Serviço" required className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-transparent focus:border-amber-500 text-xs sm:text-sm" />
+                    <select value={newServiceCategory} onChange={e => setNewServiceCategory(e.target.value)} className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-transparent focus:border-amber-500 text-xs sm:text-sm">
                       {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
-                    <div className="grid grid-cols-2 gap-4">
-                      <input type="number" value={newServicePrice} onChange={e => setNewServicePrice(e.target.value)} placeholder="Preço (R$)" className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-transparent focus:border-amber-500" />
-                      <input type="number" value={newServiceDuration} onChange={e => setNewServiceDuration(e.target.value)} placeholder="Duração (min)" className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-transparent focus:border-amber-500" />
+                    <div className="grid grid-cols-2 gap-3">
+                      <input type="number" value={newServicePrice} onChange={e => setNewServicePrice(e.target.value)} placeholder="Preço (R$)" className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-transparent focus:border-amber-500 text-xs sm:text-sm" />
+                      <input type="number" value={newServiceDuration} onChange={e => setNewServiceDuration(e.target.value)} placeholder="Duração (min)" className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-transparent focus:border-amber-500 text-xs sm:text-sm" />
                     </div>
-                    <textarea value={newServiceDesc} onChange={e => setNewServiceDesc(e.target.value)} rows={3} placeholder="Descrição curta..." className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-transparent focus:border-amber-500 resize-none" />
-                    <button type="submit" className="w-full py-5 bg-amber-500 text-slate-950 font-black rounded-2xl uppercase tracking-widest hover:bg-amber-400 shadow-xl">Salvar no Banco Gratuito</button>
+                    <textarea value={newServiceDesc} onChange={e => setNewServiceDesc(e.target.value)} rows={3} placeholder="Descrição curta..." className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-transparent focus:border-amber-500 resize-none text-xs sm:text-sm" />
+                    <button type="submit" className="w-full py-4 bg-amber-500 text-slate-950 font-black rounded-2xl uppercase tracking-widest hover:bg-amber-400 shadow-xl text-xs">Salvar no Banco Gratuito</button>
                   </form>
                 </div>
-                <div className="xl:col-span-2 space-y-4">
+                <div className="lg:col-span-2 space-y-3 sm:space-y-4">
                   {services.map(s => (
-                    <div key={s.id} className="p-6 rounded-[2rem] border bg-slate-900 border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-amber-500/30 transition-all">
+                    <div key={s.id} className="p-5 sm:p-6 rounded-[2rem] border bg-slate-900 border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-amber-500/30 transition-all">
                       <div className="flex-1">
-                        <span className="text-[10px] font-black uppercase text-amber-500 mb-1 block">{s.category}</span>
-                        <h4 className="text-2xl font-black italic uppercase text-white mb-1">{s.name}</h4>
-                        <p className="text-slate-500 text-sm line-clamp-1 italic">{s.description}</p>
+                        <span className="text-[9px] font-black uppercase text-amber-500 mb-1 block">{s.category}</span>
+                        <h4 className="text-xl sm:text-2xl font-black italic uppercase text-white mb-1">{s.name}</h4>
+                        <p className="text-slate-500 text-xs sm:text-sm line-clamp-1 italic">{s.description}</p>
                       </div>
-                      <div className="flex items-center gap-10">
-                        <div className="text-right shrink-0">
-                          <p className="text-2xl font-black text-white italic">R$ {s.price.toFixed(2)}</p>
-                          <p className="text-[10px] text-slate-500 font-bold uppercase"><Clock size={12} className="inline mr-1 text-amber-500" /> {s.duration} MIN</p>
+                      <div className="flex items-center justify-between sm:justify-end gap-6 border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-800">
+                        <div className="text-left sm:text-right shrink-0">
+                          <p className="text-xl sm:text-2xl font-black text-white italic">R$ {s.price.toFixed(2)}</p>
+                          <p className="text-[10px] text-slate-500 font-bold uppercase"><Clock size={11} className="inline mr-1 text-amber-500" /> {s.duration} MIN</p>
                         </div>
                         <div className="flex gap-2">
-                          <button onClick={() => startEditingService(s)} className="p-3 bg-slate-800 text-slate-400 rounded-xl hover:text-white"><Pencil size={18}/></button>
-                          <button onClick={() => deleteService(s.id)} className="p-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white"><Trash2 size={18}/></button>
+                          <button onClick={() => startEditingService(s)} className="p-2.5 bg-slate-800 text-slate-400 rounded-xl hover:text-white"><Pencil size={16}/></button>
+                          <button onClick={() => deleteService(s.id)} className="p-2.5 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white"><Trash2 size={16}/></button>
                         </div>
                       </div>
                     </div>
                   ))}
                   {services.length === 0 && (
-                    <div className="py-16 text-center text-slate-600 font-black uppercase italic">Nenhum serviço no banco de dados</div>
+                    <div className="py-12 text-center text-slate-600 font-black uppercase italic text-xs">Nenhum serviço no banco de dados</div>
                   )}
                 </div>
               </div>
@@ -834,18 +843,18 @@ const App: React.FC = () => {
           )}
 
           {activeView === 'bookings' && (
-            <div className="space-y-10">
-              <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">AGENDA <span className="text-amber-500">PRO</span></h2>
-              <div className="bg-slate-900 rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl">
+            <div className="space-y-8 sm:space-y-10">
+              <h2 className="text-2xl sm:text-4xl md:text-5xl font-black italic uppercase tracking-tighter">AGENDA <span className="text-amber-500">PRO</span></h2>
+              <div className="bg-slate-900 rounded-[2rem] sm:rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl">
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left min-w-[700px]">
+                  <table className="w-full text-left min-w-[650px]">
                     <thead className="bg-slate-950/50 border-b border-slate-800">
                       <tr>
-                        <th className="p-8 text-[11px] font-black uppercase text-slate-500 tracking-widest">Cliente</th>
-                        <th className="p-8 text-[11px] font-black uppercase text-slate-500 tracking-widest">Serviço</th>
-                        <th className="p-8 text-[11px] font-black uppercase text-slate-500 tracking-widest">Valor</th>
-                        <th className="p-8 text-[11px] font-black uppercase text-slate-500 tracking-widest">Data & Hora</th>
-                        <th className="p-8 text-[11px] font-black uppercase text-slate-500 tracking-widest text-right">Ação</th>
+                        <th className="p-5 sm:p-6 text-[10px] font-black uppercase text-slate-500 tracking-widest">Cliente</th>
+                        <th className="p-5 sm:p-6 text-[10px] font-black uppercase text-slate-500 tracking-widest">Serviço</th>
+                        <th className="p-5 sm:p-6 text-[10px] font-black uppercase text-slate-500 tracking-widest">Valor</th>
+                        <th className="p-5 sm:p-6 text-[10px] font-black uppercase text-slate-500 tracking-widest">Data & Hora</th>
+                        <th className="p-5 sm:p-6 text-[10px] font-black uppercase text-slate-500 tracking-widest text-right">Ação</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-800/50">
@@ -853,17 +862,17 @@ const App: React.FC = () => {
                         const s = services.find(srv => srv.id === b.serviceId);
                         return (
                           <tr key={b.id} className="hover:bg-slate-800/30 transition-colors">
-                            <td className="p-8 font-bold uppercase italic text-white">{b.clientName}</td>
-                            <td className="p-8 text-amber-500 font-black uppercase">{s?.name || 'Serviço Personalizado'}</td>
-                            <td className="p-8 text-white font-black italic">R$ {s?.price.toFixed(2) || '0.00'}</td>
-                            <td className="p-8 text-slate-400 font-medium italic">{b.date.split('-').reverse().join('/')} às {b.time}</td>
-                            <td className="p-8 text-right">
+                            <td className="p-5 sm:p-6 font-bold uppercase italic text-white text-xs sm:text-sm">{b.clientName}</td>
+                            <td className="p-5 sm:p-6 text-amber-500 font-black uppercase text-xs sm:text-sm">{s?.name || 'Serviço Personalizado'}</td>
+                            <td className="p-5 sm:p-6 text-white font-black italic text-xs sm:text-sm">R$ {s?.price.toFixed(2) || '0.00'}</td>
+                            <td className="p-5 sm:p-6 text-slate-400 font-medium italic text-xs sm:text-sm">{b.date.split('-').reverse().join('/')} às {b.time}</td>
+                            <td className="p-5 sm:p-6 text-right">
                               <button onClick={() => deleteBooking(b.id)} className="p-2 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-colors"><Trash2 size={16} /></button>
                             </td>
                           </tr>
                         );
                       })}
-                      {bookings.length === 0 && <tr><td colSpan={5} className="p-20 text-center text-slate-600 font-black uppercase italic">Nenhum agendamento gravado</td></tr>}
+                      {bookings.length === 0 && <tr><td colSpan={5} className="p-16 text-center text-slate-600 font-black uppercase italic text-xs">Nenhum agendamento gravado</td></tr>}
                     </tbody>
                   </table>
                 </div>
@@ -872,7 +881,7 @@ const App: React.FC = () => {
           )}
         </div>
 
-        <footer className="p-8 border-t border-slate-900 text-center bg-slate-950 mt-auto">
+        <footer className="p-6 sm:p-8 border-t border-slate-900 text-center bg-slate-950 mt-auto">
           <p className="text-xs font-bold uppercase tracking-widest text-amber-500">Desenvolvimento Agencia Stc Mobile / Sydney Caiaffa. 11 98493-7529.</p>
         </footer>
       </main>
