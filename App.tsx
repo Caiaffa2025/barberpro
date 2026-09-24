@@ -20,7 +20,10 @@ import {
   Database,
   MessageSquare,
   Smartphone,
-  CloudCheck
+  Calendar as CalendarIcon,
+  UserCheck,
+  CheckCircle2,
+  Sparkles
 } from 'lucide-react';
 import { collection, doc, setDoc, deleteDoc, onSnapshot } from 'firebase/firestore';
 import { db, handleFirestoreError, OperationType } from './firebase';
@@ -44,6 +47,34 @@ const playSuccessSound = () => {
     oscillator.start();
     oscillator.stop(context.currentTime + 0.3);
   } catch (e) {}
+};
+
+const TIME_SLOTS = [
+  '08:00', '08:30', '09:00', '09:30', '10:00', '10:30',
+  '11:00', '11:30', '13:00', '13:30', '14:00', '14:30',
+  '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
+  '18:00', '18:30', '19:00', '19:30', '20:00'
+];
+
+const getQuickDays = () => {
+  const days = [];
+  const now = new Date();
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(now);
+    d.setDate(now.getDate() + i);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const dateStr = `${year}-${month}-${day}`;
+    
+    let title = `${day}/${month}`;
+    let subtitle = d.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '').toUpperCase();
+    if (i === 0) subtitle = 'HOJE';
+    if (i === 1) subtitle = 'AMANHÃ';
+    
+    days.push({ dateStr, title, subtitle });
+  }
+  return days;
 };
 
 const SidebarLink = ({ icon, label, active, onClick }: any) => (
@@ -86,7 +117,16 @@ const App: React.FC = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [team, setTeam] = useState<TeamMember[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
+
+  // Booking form state
+  const todayStr = new Date().toISOString().split('T')[0];
+  const [bookingName, setBookingName] = useState('');
+  const [bookingEmail, setBookingEmail] = useState('');
+  const [bookingPhone, setBookingPhone] = useState('');
+  const [bookingServiceId, setBookingServiceId] = useState('');
+  const [bookingMemberId, setBookingMemberId] = useState('');
+  const [selectedDate, setSelectedDate] = useState(todayStr);
+  const [selectedTime, setSelectedTime] = useState('09:00');
 
   // Sync Services with Firestore Real-time
   useEffect(() => {
@@ -94,7 +134,6 @@ const App: React.FC = () => {
       collection(db, 'services'),
       async (snapshot) => {
         if (snapshot.empty) {
-          // Seed default services into Firestore if database is empty
           try {
             for (const s of INITIAL_SERVICES) {
               await setDoc(doc(db, 'services', s.id), s);
@@ -121,7 +160,6 @@ const App: React.FC = () => {
       collection(db, 'team'),
       async (snapshot) => {
         if (snapshot.empty) {
-          // Seed default team members into Firestore if empty
           try {
             for (const t of INITIAL_TEAM) {
               await setDoc(doc(db, 'team', t.id), t);
@@ -151,10 +189,8 @@ const App: React.FC = () => {
         snapshot.forEach((docSnap) => {
           loadedBookings.push({ id: docSnap.id, ...docSnap.data() } as Booking);
         });
-        // Sort bookings by date and time descending or ascending
         loadedBookings.sort((a, b) => `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`));
         setBookings(loadedBookings);
-        setIsDataLoaded(true);
       },
       (error) => handleFirestoreError(error, OperationType.LIST, 'bookings')
     );
@@ -303,31 +339,41 @@ const App: React.FC = () => {
     setNewServiceDesc(s.description); setActiveView('services');
   };
 
+  const openBookingView = (member?: TeamMember) => {
+    setPreselectedMember(member || null);
+    if (member) setBookingMemberId(member.id);
+    else setBookingMemberId('');
+    if (services.length > 0 && !bookingServiceId) {
+      setBookingServiceId(services[0].id);
+    }
+    setActiveView('client-booking');
+  };
+
   const revenue = bookings.reduce((a, c) => a + (services.find(s => s.id === c.serviceId)?.price || 0), 0);
 
   if (activeView === 'landing') return (
     <LandingPage 
       services={services.length > 0 ? services : INITIAL_SERVICES} 
       team={team.length > 0 ? team : INITIAL_TEAM} 
-      onBookNow={() => { setPreselectedMember(null); setActiveView('client-booking'); }} 
-      onBookWithMember={(member) => { setPreselectedMember(member); setActiveView('client-booking'); }}
+      onBookNow={() => openBookingView()} 
+      onBookWithMember={(member) => openBookingView(member)}
       onAdminAccess={() => setActiveView('login')} 
     />
   );
 
   if (activeView === 'success-feedback') return (
     <div className="bg-slate-950 min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-[3rem] p-10 md:p-16 text-center shadow-2xl animate-in fade-in zoom-in duration-500">
-        <div className="w-24 h-24 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-green-500/20">
-          <Check size={48} className="text-green-500" />
+      <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-[3rem] p-8 md:p-14 text-center shadow-2xl animate-in fade-in zoom-in duration-500">
+        <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/20">
+          <Check size={40} className="text-green-500" />
         </div>
-        <h2 className="text-3xl md:text-5xl font-black text-white italic uppercase tracking-tighter mb-4">RESERVA <span className="text-amber-500">CONCLUÍDA</span></h2>
-        <p className="text-slate-400 font-medium mb-12 uppercase text-xs md:text-sm tracking-widest">Seu agendamento foi gravado no banco de dados em tempo real. Envie a confirmação:</p>
+        <h2 className="text-3xl md:text-4xl font-black text-white italic uppercase tracking-tighter mb-4">RESERVA <span className="text-amber-500">CONCLUÍDA</span></h2>
+        <p className="text-slate-400 font-medium mb-8 uppercase text-xs md:text-sm tracking-widest">Seu agendamento foi gravado no banco de dados com sucesso. Envie a confirmação:</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <button onClick={triggerWhatsApp} className="flex items-center justify-center gap-3 py-5 bg-[#25D366] text-white font-black rounded-2xl uppercase tracking-widest hover:scale-105 transition-all shadow-xl text-sm"><MessageSquare size={20} /> WhatsApp</button>
           <button onClick={triggerSMS} className="flex items-center justify-center gap-3 py-5 bg-slate-800 text-white font-black rounded-2xl uppercase tracking-widest hover:scale-105 transition-all shadow-xl text-sm border border-slate-700"><Smartphone size={20} /> SMS</button>
         </div>
-        <button onClick={() => setActiveView('landing')} className="mt-12 text-slate-500 hover:text-white uppercase font-black text-[10px] tracking-[0.3em]">Voltar ao Início</button>
+        <button onClick={() => setActiveView('landing')} className="mt-10 text-slate-500 hover:text-white uppercase font-black text-[10px] tracking-[0.3em]">Voltar ao Início</button>
       </div>
     </div>
   );
@@ -349,49 +395,249 @@ const App: React.FC = () => {
     </div>
   );
 
-  if (activeView === 'client-booking') return (
-    <div className="bg-slate-950 min-h-screen flex items-center justify-center p-4 md:p-10">
-      <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-[2.5rem] p-6 md:p-12 shadow-2xl overflow-y-auto max-h-[90vh]">
-        <button onClick={() => { setActiveView('landing'); setPreselectedMember(null); }} className="text-slate-500 mb-8 flex items-center gap-2 uppercase font-black text-[10px] tracking-widest hover:text-white transition-colors"><ArrowLeft size={16}/> Voltar</button>
-        <h2 className="text-3xl md:text-4xl font-black text-white italic uppercase mb-2 tracking-tighter leading-none">Agendar <span className="text-amber-500">Horário</span></h2>
-        {preselectedMember && (
-          <p className="text-amber-500 text-xs font-black uppercase tracking-widest mb-4">Mestre selecionado: {preselectedMember.name}</p>
-        )}
-        <form onSubmit={e => {
-          e.preventDefault();
-          const fd = new FormData(e.currentTarget);
-          handleBookingConfirm({
-            id: `b${Date.now()}`, 
-            clientName: fd.get('name') as string, 
-            clientEmail: fd.get('email') as string,
-            serviceId: fd.get('service') as string, 
-            memberId: preselectedMember?.id || fd.get('member') as string || '',
-            date: fd.get('date') as string, 
-            time: fd.get('time') as string,
-            status: 'pending'
-          });
-        }} className="space-y-4 md:space-y-5">
-          <input name="name" placeholder="Nome Completo" required className="w-full bg-slate-800 p-4 md:p-5 rounded-2xl text-white outline-none border border-transparent focus:border-amber-500 transition-all" />
-          <input name="email" type="email" placeholder="E-mail" required className="w-full bg-slate-800 p-4 md:p-5 rounded-2xl text-white outline-none border border-transparent focus:border-amber-500 transition-all" />
-          <select name="service" required className="w-full bg-slate-800 p-4 md:p-5 rounded-2xl text-white outline-none border border-transparent focus:border-amber-500 transition-all">
-            <option value="">Selecione o Serviço</option>
-            {services.map(s => <option key={s.id} value={s.id}>{s.name} — R$ {s.price.toFixed(2)}</option>)}
-          </select>
-          {!preselectedMember && team.length > 0 && (
-            <select name="member" className="w-full bg-slate-800 p-4 md:p-5 rounded-2xl text-white outline-none border border-transparent focus:border-amber-500 transition-all">
-              <option value="">Selecione o Barbeiro (Opcional)</option>
-              {team.map(m => <option key={m.id} value={m.id}>{m.name} ({m.role})</option>)}
-            </select>
-          )}
-          <div className="grid grid-cols-2 gap-4">
-            <input name="date" type="date" required className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-transparent focus:border-amber-500 transition-all" />
-            <input name="time" type="time" required className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-transparent focus:border-amber-500 transition-all" />
+  if (activeView === 'client-booking') {
+    const selectedService = services.find(s => s.id === bookingServiceId) || services[0];
+    const selectedMember = team.find(m => m.id === (preselectedMember?.id || bookingMemberId));
+    const quickDays = getQuickDays();
+
+    const handleFormSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!bookingName.trim()) return alert("Por favor, informe seu nome.");
+      if (!selectedService) return alert("Por favor, selecione um serviço.");
+      if (!selectedDate) return alert("Por favor, selecione a data.");
+      if (!selectedTime) return alert("Por favor, selecione o horário.");
+
+      handleBookingConfirm({
+        id: `b${Date.now()}`,
+        clientName: bookingName,
+        clientEmail: bookingEmail || 'cliente@barberpro.com',
+        serviceId: selectedService.id,
+        memberId: preselectedMember?.id || bookingMemberId || '',
+        date: selectedDate,
+        time: selectedTime,
+        status: 'pending'
+      });
+    };
+
+    return (
+      <div className="bg-slate-950 min-h-screen flex items-center justify-center p-3 sm:p-6 md:p-10 text-white">
+        <div className="w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-[2.5rem] p-5 sm:p-8 md:p-12 shadow-2xl overflow-y-auto max-h-[95vh] space-y-8 my-auto">
+          {/* Header */}
+          <div className="flex items-center justify-between border-b border-slate-800 pb-5">
+            <button 
+              type="button"
+              onClick={() => { setActiveView('landing'); setPreselectedMember(null); }} 
+              className="text-slate-400 hover:text-white flex items-center gap-2 uppercase font-black text-[11px] tracking-widest transition-colors bg-slate-800 px-4 py-2.5 rounded-xl border border-slate-700"
+            >
+              <ArrowLeft size={16}/> Voltar
+            </button>
+            <div className="text-right">
+              <span className="text-[10px] font-black uppercase tracking-widest text-amber-500 block">Passo Único</span>
+              <h2 className="text-xl sm:text-3xl font-black italic uppercase tracking-tighter leading-none">AGENDAR <span className="text-amber-500">HORÁRIO</span></h2>
+            </div>
           </div>
-          <button type="submit" className="w-full py-5 bg-amber-500 text-slate-950 font-black rounded-2xl uppercase tracking-widest shadow-xl transform active:scale-95 transition-all">Finalizar e Notificar</button>
-        </form>
+
+          {preselectedMember && (
+            <div className="bg-amber-500/10 border border-amber-500/30 p-4 rounded-2xl flex items-center gap-4">
+              <img src={preselectedMember.image} alt={preselectedMember.name} className="w-12 h-12 rounded-xl object-cover border border-amber-500" />
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-widest text-amber-500">Atendimento Exclusivo</span>
+                <p className="text-sm font-black uppercase text-white">{preselectedMember.name} ({preselectedMember.role})</p>
+              </div>
+            </div>
+          )}
+
+          <form onSubmit={handleFormSubmit} className="space-y-6">
+            {/* 1. SEUS DADOS */}
+            <div className="space-y-3">
+              <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                <UserCheck size={16} className="text-amber-500" /> 1. Seus Dados de Contato
+              </label>
+              <div className="space-y-3">
+                <input 
+                  type="text"
+                  value={bookingName}
+                  onChange={e => setBookingName(e.target.value)}
+                  placeholder="Seu Nome Completo *" 
+                  required 
+                  className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-medium placeholder-slate-500" 
+                />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <input 
+                    type="tel"
+                    value={bookingPhone}
+                    onChange={e => setBookingPhone(e.target.value)}
+                    placeholder="WhatsApp / Celular (Opcional)" 
+                    className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-medium placeholder-slate-500" 
+                  />
+                  <input 
+                    type="email"
+                    value={bookingEmail}
+                    onChange={e => setBookingEmail(e.target.value)}
+                    placeholder="Seu E-mail (Opcional)" 
+                    className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-medium placeholder-slate-500" 
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* 2. SELEÇÃO DE SERVIÇO & BARBEIRO */}
+            <div className="space-y-3">
+              <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                <Scissors size={16} className="text-amber-500" /> 2. Serviço & Profissional
+              </label>
+              <div className="space-y-3">
+                <select 
+                  value={bookingServiceId} 
+                  onChange={e => setBookingServiceId(e.target.value)}
+                  required 
+                  style={{ colorScheme: 'dark' }}
+                  className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-bold text-sm"
+                >
+                  <option value="">Selecione o Serviço *</option>
+                  {services.map(s => (
+                    <option key={s.id} value={s.id}>
+                      {s.name} — R$ {s.price.toFixed(2)} ({s.duration} min)
+                    </option>
+                  ))}
+                </select>
+
+                {!preselectedMember && team.length > 0 && (
+                  <select 
+                    value={bookingMemberId} 
+                    onChange={e => setBookingMemberId(e.target.value)}
+                    style={{ colorScheme: 'dark' }}
+                    className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-bold text-sm"
+                  >
+                    <option value="">Selecione o Barbeiro (Qualquer Profissional)</option>
+                    {team.map(m => (
+                      <option key={m.id} value={m.id}>
+                        {m.name} — {m.role}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </div>
+            </div>
+
+            {/* 3. SELEÇÃO DE DIA / DIA DA SEMANA / ANO */}
+            <div className="space-y-3">
+              <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                <CalendarIcon size={16} className="text-amber-500" /> 3. Selecione o Dia (Data)
+              </label>
+              
+              {/* Atalhos Rápidos de Dias em Carrossel Mobile */}
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2">
+                {quickDays.map((qd) => {
+                  const isSelected = selectedDate === qd.dateStr;
+                  return (
+                    <button
+                      key={qd.dateStr}
+                      type="button"
+                      onClick={() => setSelectedDate(qd.dateStr)}
+                      className={`p-3 rounded-2xl border text-center transition-all flex flex-col items-center justify-center ${
+                        isSelected 
+                        ? 'bg-amber-500 border-amber-400 text-slate-950 font-black shadow-lg shadow-amber-500/20 scale-105' 
+                        : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-500'
+                      }`}
+                    >
+                      <span className="text-[9px] font-black uppercase tracking-wider">{qd.subtitle}</span>
+                      <span className="text-sm font-black italic">{qd.title}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Seletor Manual de Data com colorScheme dark fix total para Mobile */}
+              <div className="pt-2">
+                <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">
+                  <span>Ou selecione no calendário:</span>
+                </div>
+                <input 
+                  type="date"
+                  value={selectedDate}
+                  min={todayStr}
+                  onChange={e => setSelectedDate(e.target.value)}
+                  required 
+                  style={{ colorScheme: 'dark' }}
+                  className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-black text-sm"
+                />
+              </div>
+            </div>
+
+            {/* 4. SELEÇÃO DE HORÁRIO */}
+            <div className="space-y-3">
+              <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                <Clock size={16} className="text-amber-500" /> 4. Selecione o Horário
+              </label>
+
+              {/* Grid Interativo de Horários para Facilidade Mobile */}
+              <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 max-h-48 overflow-y-auto p-1 bg-slate-950/50 rounded-2xl border border-slate-800">
+                {TIME_SLOTS.map((slot) => {
+                  const isSelected = selectedTime === slot;
+                  return (
+                    <button
+                      key={slot}
+                      type="button"
+                      onClick={() => setSelectedTime(slot)}
+                      className={`py-3 px-2 rounded-xl text-center text-xs font-black transition-all ${
+                        isSelected 
+                        ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20 scale-105' 
+                        : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'
+                      }`}
+                    >
+                      {slot}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Campo Manual de Horário */}
+              <div className="pt-1">
+                <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">
+                  <span>Horário personalizado:</span>
+                </div>
+                <input 
+                  type="time"
+                  value={selectedTime}
+                  onChange={e => setSelectedTime(e.target.value)}
+                  required 
+                  style={{ colorScheme: 'dark' }}
+                  className="w-full bg-slate-800 p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-black text-sm"
+                />
+              </div>
+            </div>
+
+            {/* RESUMO DO AGENDAMENTO */}
+            <div className="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Resumo da Reserva</span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 flex items-center gap-1">
+                  <Sparkles size={12} /> Confirmação Imediata
+                </span>
+              </div>
+              <div className="text-sm font-black text-white italic">
+                {selectedService ? selectedService.name : 'Selecione um serviço'} {selectedService && `(R$ ${selectedService.price.toFixed(2)})`}
+              </div>
+              <div className="text-xs text-amber-500 font-bold uppercase tracking-wider flex items-center gap-3">
+                <span>📅 {selectedDate.split('-').reverse().join('/')}</span>
+                <span>⏰ {selectedTime}</span>
+                {selectedMember && <span>💈 Barber: {selectedMember.name}</span>}
+              </div>
+            </div>
+
+            {/* Botão de Envio */}
+            <button 
+              type="submit" 
+              className="w-full py-5 bg-amber-500 text-slate-950 font-black rounded-2xl uppercase tracking-widest shadow-xl hover:bg-amber-400 transform active:scale-95 transition-all text-sm flex items-center justify-center gap-2"
+            >
+              <CheckCircle2 size={20} /> Gravar Agendamento em Tempo Real
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 
   return (
     <div className="flex flex-col lg:flex-row h-screen bg-slate-950 text-white overflow-hidden">
