@@ -362,8 +362,8 @@ const App: React.FC = () => {
   );
 
   if (activeView === 'success-feedback') return (
-    <div className="bg-slate-950 min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-[2.5rem] sm:rounded-[3rem] p-6 sm:p-10 md:p-14 text-center shadow-2xl animate-in fade-in zoom-in duration-500 my-auto">
+    <div className="fixed inset-0 z-[100] bg-slate-950 text-white overflow-y-auto overflow-x-hidden flex flex-col items-center justify-center p-4">
+      <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-10 md:p-12 text-center shadow-2xl animate-in fade-in zoom-in duration-500 my-auto box-border">
         <div className="w-16 h-16 sm:w-20 sm:h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/20">
           <Check size={36} className="text-green-500" />
         </div>
@@ -379,8 +379,8 @@ const App: React.FC = () => {
   );
 
   if (activeView === 'login') return (
-    <div className="bg-slate-950 min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-2xl my-auto">
+    <div className="fixed inset-0 z-[100] bg-slate-950 text-white overflow-y-auto overflow-x-hidden flex flex-col items-center justify-center p-4">
+      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl my-auto box-border">
         <button onClick={() => setActiveView('landing')} className="text-slate-500 mb-6 flex items-center gap-2 uppercase font-black text-[10px] tracking-widest hover:text-white transition-colors"><ArrowLeft size={16}/> Sair</button>
         <h2 className="text-2xl sm:text-3xl font-black text-white italic uppercase tracking-tighter text-center mb-8 leading-none">Acesso <span className="text-amber-500">Master</span></h2>
         <form onSubmit={e => {
@@ -420,79 +420,79 @@ const App: React.FC = () => {
     };
 
     return (
-      <div className="bg-slate-950 min-h-screen flex items-center justify-center p-3 sm:p-6 md:p-10 text-white">
-        <div className="w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-[2rem] sm:rounded-[2.5rem] p-4 sm:p-8 md:p-12 shadow-2xl overflow-y-auto max-h-[96vh] space-y-6 sm:space-y-8 my-auto">
+      <div className="fixed inset-0 z-[100] bg-slate-950 text-white overflow-y-auto overflow-x-hidden flex flex-col items-center justify-start py-6 px-3 sm:px-6">
+        <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl p-4 sm:p-8 shadow-2xl space-y-6 overflow-x-hidden box-border my-auto">
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-slate-800 pb-4 sm:pb-5">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-4">
             <button 
               type="button"
               onClick={() => { setActiveView('landing'); setPreselectedMember(null); }} 
-              className="text-slate-400 hover:text-white flex items-center gap-1.5 sm:gap-2 uppercase font-black text-[10px] sm:text-[11px] tracking-widest transition-colors bg-slate-800 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-slate-700"
+              className="text-slate-400 hover:text-white flex items-center gap-2 uppercase font-black text-xs tracking-wider transition-colors bg-slate-800 px-3.5 py-2 rounded-xl border border-slate-700 shrink-0"
             >
               <ArrowLeft size={16}/> Voltar
             </button>
             <div className="text-right">
-              <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-amber-500 block">Reserva Rápida</span>
-              <h2 className="text-lg sm:text-2xl md:text-3xl font-black italic uppercase tracking-tighter leading-none">AGENDAR <span className="text-amber-500">HORÁRIO</span></h2>
+              <span className="text-[10px] font-black uppercase tracking-widest text-amber-500 block">Reserva Rápida</span>
+              <h2 className="text-xl sm:text-2xl font-black italic uppercase tracking-tighter leading-none">AGENDAR <span className="text-amber-500">HORÁRIO</span></h2>
             </div>
           </div>
 
           {preselectedMember && (
-            <div className="bg-amber-500/10 border border-amber-500/30 p-3.5 sm:p-4 rounded-2xl flex items-center gap-3 sm:gap-4">
-              <img src={preselectedMember.image} alt={preselectedMember.name} className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-cover border border-amber-500 shrink-0" />
-              <div>
+            <div className="bg-amber-500/10 border border-amber-500/30 p-3.5 rounded-2xl flex items-center gap-3">
+              <img src={preselectedMember.image} alt={preselectedMember.name} className="w-10 h-10 rounded-xl object-cover border border-amber-500 shrink-0" />
+              <div className="min-w-0">
                 <span className="text-[9px] font-black uppercase tracking-widest text-amber-500 block">Atendimento Exclusivo</span>
-                <p className="text-xs sm:text-sm font-black uppercase text-white">{preselectedMember.name} ({preselectedMember.role})</p>
+                <p className="text-xs font-black uppercase text-white truncate">{preselectedMember.name} ({preselectedMember.role})</p>
               </div>
             </div>
           )}
 
-          <form onSubmit={handleFormSubmit} className="space-y-5 sm:space-y-6">
+          <form onSubmit={handleFormSubmit} className="space-y-5">
             {/* 1. SEUS DADOS */}
-            <div className="space-y-2.5 sm:space-y-3">
-              <label className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
-                <UserCheck size={16} className="text-amber-500" /> 1. Seus Dados de Contato
+            <div className="space-y-2.5">
+              <label className="text-xs font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                <UserCheck size={16} className="text-amber-500 shrink-0" /> 1. Seus Dados de Contato
               </label>
-              <div className="space-y-2.5 sm:space-y-3">
+              <div className="space-y-2.5">
                 <input 
                   type="text"
                   value={bookingName}
                   onChange={e => setBookingName(e.target.value)}
                   placeholder="Seu Nome Completo *" 
                   required 
-                  className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-medium text-xs sm:text-sm placeholder-slate-500" 
+                  className="w-full bg-slate-800 p-3.5 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-medium text-xs sm:text-sm placeholder-slate-500" 
                 />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   <input 
                     type="tel"
                     value={bookingPhone}
                     onChange={e => setBookingPhone(e.target.value)}
                     placeholder="WhatsApp / Celular (Opcional)" 
-                    className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-medium text-xs sm:text-sm placeholder-slate-500" 
+                    className="w-full bg-slate-800 p-3.5 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-medium text-xs sm:text-sm placeholder-slate-500" 
                   />
                   <input 
                     type="email"
                     value={bookingEmail}
                     onChange={e => setBookingEmail(e.target.value)}
                     placeholder="Seu E-mail (Opcional)" 
-                    className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-medium text-xs sm:text-sm placeholder-slate-500" 
+                    className="w-full bg-slate-800 p-3.5 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-medium text-xs sm:text-sm placeholder-slate-500" 
                   />
                 </div>
               </div>
             </div>
 
             {/* 2. SELEÇÃO DE SERVIÇO & BARBEIRO */}
-            <div className="space-y-2.5 sm:space-y-3">
-              <label className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
-                <Scissors size={16} className="text-amber-500" /> 2. Serviço & Profissional
+            <div className="space-y-2.5">
+              <label className="text-xs font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                <Scissors size={16} className="text-amber-500 shrink-0" /> 2. Serviço & Profissional
               </label>
-              <div className="space-y-2.5 sm:space-y-3">
+              <div className="space-y-2.5">
                 <select 
                   value={bookingServiceId} 
                   onChange={e => setBookingServiceId(e.target.value)}
                   required 
                   style={{ colorScheme: 'dark' }}
-                  className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-bold text-xs sm:text-sm"
+                  className="w-full bg-slate-800 p-3.5 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-bold text-xs sm:text-sm"
                 >
                   <option value="">Selecione o Serviço *</option>
                   {services.map(s => (
@@ -507,7 +507,7 @@ const App: React.FC = () => {
                     value={bookingMemberId} 
                     onChange={e => setBookingMemberId(e.target.value)}
                     style={{ colorScheme: 'dark' }}
-                    className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-bold text-xs sm:text-sm"
+                    className="w-full bg-slate-800 p-3.5 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-bold text-xs sm:text-sm"
                   >
                     <option value="">Selecione o Barbeiro (Qualquer Profissional)</option>
                     {team.map(m => (
@@ -520,14 +520,14 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            {/* 3. SELEÇÃO DE DIA / DIA DA SEMANA / ANO */}
-            <div className="space-y-2.5 sm:space-y-3">
-              <label className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
-                <CalendarIcon size={16} className="text-amber-500" /> 3. Selecione o Dia (Data)
+            {/* 3. SELEÇÃO DE DIA (DATA) */}
+            <div className="space-y-2.5">
+              <label className="text-xs font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                <CalendarIcon size={16} className="text-amber-500 shrink-0" /> 3. Selecione o Dia (Data)
               </label>
               
-              {/* Atalhos Rápidos de Dias */}
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-1.5 sm:gap-2">
+              {/* Carrossel de atalhos rápidos com barra de rolagem horizontal nativa limpa */}
+              <div className="flex gap-2 overflow-x-auto pb-2 pt-1 w-full max-w-full">
                 {quickDays.map((qd) => {
                   const isSelected = selectedDate === qd.dateStr;
                   return (
@@ -535,23 +535,23 @@ const App: React.FC = () => {
                       key={qd.dateStr}
                       type="button"
                       onClick={() => setSelectedDate(qd.dateStr)}
-                      className={`p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border text-center transition-all flex flex-col items-center justify-center ${
+                      className={`py-2.5 px-3.5 rounded-2xl border text-center transition-all shrink-0 flex flex-col items-center justify-center min-w-[75px] ${
                         isSelected 
-                        ? 'bg-amber-500 border-amber-400 text-slate-950 font-black shadow-lg shadow-amber-500/20 scale-105' 
+                        ? 'bg-amber-500 border-amber-400 text-slate-950 font-black shadow-md' 
                         : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-500'
                       }`}
                     >
-                      <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-wider">{qd.subtitle}</span>
-                      <span className="text-xs sm:text-sm font-black italic">{qd.title}</span>
+                      <span className="text-[9px] font-black uppercase tracking-wider">{qd.subtitle}</span>
+                      <span className="text-xs font-black italic">{qd.title}</span>
                     </button>
                   );
                 })}
               </div>
 
               {/* Seletor Manual de Data */}
-              <div className="pt-1">
-                <div className="flex items-center justify-between text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">
-                  <span>Ou selecione no calendário:</span>
+              <div>
+                <div className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">
+                  Ou escolha outra data no calendário:
                 </div>
                 <input 
                   type="date"
@@ -560,19 +560,19 @@ const App: React.FC = () => {
                   onChange={e => setSelectedDate(e.target.value)}
                   required 
                   style={{ colorScheme: 'dark' }}
-                  className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-black text-xs sm:text-sm"
+                  className="w-full bg-slate-800 p-3.5 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-black text-xs sm:text-sm"
                 />
               </div>
             </div>
 
             {/* 4. SELEÇÃO DE HORÁRIO */}
-            <div className="space-y-2.5 sm:space-y-3">
-              <label className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
-                <Clock size={16} className="text-amber-500" /> 4. Selecione o Horário
+            <div className="space-y-2.5">
+              <label className="text-xs font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                <Clock size={16} className="text-amber-500 shrink-0" /> 4. Selecione o Horário
               </label>
 
-              {/* Grid Interativo de Horários */}
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-1.5 sm:gap-2 max-h-48 overflow-y-auto p-1.5 bg-slate-950/50 rounded-2xl border border-slate-800">
+              {/* Grade de Horários */}
+              <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 max-h-40 overflow-y-auto p-2 bg-slate-950/60 rounded-2xl border border-slate-800">
                 {TIME_SLOTS.map((slot) => {
                   const isSelected = selectedTime === slot;
                   return (
@@ -580,9 +580,9 @@ const App: React.FC = () => {
                       key={slot}
                       type="button"
                       onClick={() => setSelectedTime(slot)}
-                      className={`py-2.5 sm:py-3 px-1.5 sm:px-2 rounded-xl text-center text-xs font-black transition-all ${
+                      className={`py-2.5 px-1 rounded-xl text-center text-xs font-black transition-all ${
                         isSelected 
-                        ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20 scale-105' 
+                        ? 'bg-amber-500 text-slate-950 shadow-md font-black' 
                         : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'
                       }`}
                     >
@@ -592,10 +592,10 @@ const App: React.FC = () => {
                 })}
               </div>
 
-              {/* Campo Manual de Horário */}
-              <div className="pt-1">
-                <div className="flex items-center justify-between text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">
-                  <span>Horário personalizado:</span>
+              {/* Horário Personalizado */}
+              <div>
+                <div className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">
+                  Ou digite um horário específico:
                 </div>
                 <input 
                   type="time"
@@ -603,23 +603,23 @@ const App: React.FC = () => {
                   onChange={e => setSelectedTime(e.target.value)}
                   required 
                   style={{ colorScheme: 'dark' }}
-                  className="w-full bg-slate-800 p-3.5 sm:p-4 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-black text-xs sm:text-sm"
+                  className="w-full bg-slate-800 p-3.5 rounded-2xl text-white outline-none border border-slate-700 focus:border-amber-500 transition-all font-black text-xs sm:text-sm"
                 />
               </div>
             </div>
 
             {/* RESUMO DO AGENDAMENTO */}
-            <div className="bg-slate-950 p-4 sm:p-5 rounded-2xl border border-slate-800 space-y-1.5 sm:space-y-2">
+            <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-slate-500">Resumo da Reserva</span>
-                <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-emerald-400 flex items-center gap-1">
+                <span className="text-[9px] font-black uppercase tracking-widest text-slate-500">Resumo da Reserva</span>
+                <span className="text-[9px] font-black uppercase tracking-widest text-emerald-400 flex items-center gap-1">
                   <Sparkles size={12} /> Confirmação Imediata
                 </span>
               </div>
-              <div className="text-xs sm:text-sm font-black text-white italic">
+              <div className="text-xs sm:text-sm font-black text-white italic truncate">
                 {selectedService ? selectedService.name : 'Selecione um serviço'} {selectedService && `(R$ ${selectedService.price.toFixed(2)})`}
               </div>
-              <div className="text-[11px] sm:text-xs text-amber-500 font-bold uppercase tracking-wider flex flex-wrap items-center gap-2 sm:gap-3">
+              <div className="text-[11px] text-amber-500 font-bold uppercase tracking-wider flex flex-wrap items-center gap-2">
                 <span>📅 {selectedDate.split('-').reverse().join('/')}</span>
                 <span>⏰ {selectedTime}</span>
                 {selectedMember && <span>💈 {selectedMember.name}</span>}
@@ -629,7 +629,7 @@ const App: React.FC = () => {
             {/* Botão de Envio */}
             <button 
               type="submit" 
-              className="w-full py-4 sm:py-5 bg-amber-500 text-slate-950 font-black rounded-2xl uppercase tracking-widest shadow-xl hover:bg-amber-400 active:scale-95 transition-all text-xs sm:text-sm flex items-center justify-center gap-2"
+              className="w-full py-4 bg-amber-500 text-slate-950 font-black rounded-2xl uppercase tracking-widest shadow-xl hover:bg-amber-400 active:scale-95 transition-all text-xs sm:text-sm flex items-center justify-center gap-2"
             >
               <CheckCircle2 size={18} /> Gravar Agendamento em Tempo Real
             </button>
@@ -881,8 +881,8 @@ const App: React.FC = () => {
           )}
         </div>
 
-        <footer className="p-6 sm:p-8 border-t border-slate-900 text-center bg-slate-950 mt-auto">
-          <p className="text-xs font-bold uppercase tracking-widest text-amber-500">Desenvolvimento Agencia Stc Mobile / Sydney Caiaffa. 11 98493-7529.</p>
+        <footer className="p-6 border-t border-slate-900 text-center bg-slate-950 mt-auto">
+          <p className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-amber-500">Desenvolvimento Agencia Stc Mobile / Sydney Caiaffa. 11 98493-7529.</p>
         </footer>
       </main>
     </div>
